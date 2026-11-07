@@ -1,0 +1,27 @@
+# ---- 系统 / 编辑器 ----
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
+# ---- Node ----
+node_modules/
+
+# ---- 临时产物（不纳入版本库）----
+tmp/
+.build/
+*.tmp
+*.log
+output/**/render-preview/
+
+# 渲染中间文件（保留生成的 md / png / pdf）
+output/**/.cache/
