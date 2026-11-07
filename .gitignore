@@ -21,6 +21,9 @@ tmp/
 .build/
 *.tmp
 *.log
+
+# 但实验日志是作业证据（报告里逐行引用），必须入库
+!handmade/lab/logs/*.log
 output/**/render-preview/
 
 # 渲染中间文件（保留生成的 md / png / pdf）

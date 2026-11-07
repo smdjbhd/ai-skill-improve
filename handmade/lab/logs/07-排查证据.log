@@ -1,0 +1,26 @@
+# 采集时间: 2026-11-07 18:15:09 +08:00
+# 命令: bash /tmp/ev.sh (问题1、问题2 排查段用到的取证命令)
+# 说明: cat -A 把中文显示成 M-eM-.M-^I 这类转义, 属正常现象
+
+=== 问题1 的排查证据
+$ cat -A ~/bestidiocs4stu/sh/opensslinstall.sh | sed -n '55p;86,88p'
+cat > "${ENV_SCRIPT}" << EOF  $
+echo "OpenSSL ${VER} M-eM-.M-^IM-hM-#M-^EM-dM-8M-^NM-iM-^EM-^MM-gM-=M-.M-eM-.M-^LM-fM-^HM-^PM-cM-^@M-^B"  $
+echo "M-hM-/M-7M-gM-!M-.M-dM-?M-^]M-eM-7M-2M-hM-?M-^PM-hM-!M-^L 'source ${ENV_SCRIPT}' M-fM-^HM-^VM-eM-0M-^FM-eM-^EM-6M-fM-7M-;M-eM-^JM- M-eM-^HM-0M-fM-^BM-(M-gM-^ZM-^D shell M-iM-^EM-^MM-gM-=M-.M-fM-^VM-^GM-dM-;M-6M-dM-8M--M-oM-<M-^LM-dM-;M-%M-dM-=M-?M-gM-^TM-(M-fM-^VM-0M-eM-.M-^IM-hM-#M-^EM-gM-^ZM-^D OpenSSLM-cM-^@M-^B"$
+
+$ bash -n ~/bestidiocs4stu/sh/opensslinstall.sh; echo "exit=$?"
+/home/sm/bestidiocs4stu/sh/opensslinstall.sh: 行 87: 警告： 立即文档在第 55 行被文件结束符分隔（需要 "EOF"）
+exit=0
+
+=== 问题2 的排查证据
+$ readelf -d ~/rocopenssl_build/bin/openssl | grep -E 'RPATH|RUNPATH' || echo '(没有 RPATH/RUNPATH)'
+(没有 RPATH/RUNPATH)
+
+$ ls ~/rocopenssl_build
+bin
+include
+lib64
+
+$ grep -n 'LD_LIBRARY_PATH=' ~/bestidiocs4stu/sh/opensslinstall.sh
+58:export LD_LIBRARY_PATH="${BUILD_DIR}/lib:\$LD_LIBRARY_PATH"  
+=== end 2026-11-07T18:15:09+08:00

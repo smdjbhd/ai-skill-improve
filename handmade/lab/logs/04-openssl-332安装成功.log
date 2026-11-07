@@ -1,0 +1,51 @@
+# 采集时间: 2026-11-07 18:04:36 -> 18:08:25 +08:00
+# 命令: bash ~/install-openssl-3.3.2.sh  (自写修正版, 见 handmade/lab/install-openssl-3.3.2.sh)
+# 完整日志: 6190 行 / 1.9 MB, 本文件保留开头与结尾验证段
+# 注: github release 下载会 302 跳到带签名的临时 URL, 本文件已抹掉该 URL (几小时后失效, 但仍不宜入库)
+
+=== start: 2026-11-07T18:04:36+08:00
+/dev/sda3        20G   16G  2.4G   87% /
+=== 清理 3.2.1 源码树（保留 tarball 与安装目录，腾出空间）
+/dev/sda3        20G   15G  3.2G   83% /
+>>> 下载 OpenSSL 3.3.2 ...
+--2026-11-07 18:04:36--  https://github.com/openssl/openssl/releases/download/openssl-3.3.2/openssl-3.3.2.tar.gz
+正在解析主机 github.com (github.com)... 20.205.243.166
+正在连接 github.com (github.com)|20.205.243.166|:443... 已连接。
+已发出 HTTP 请求，正在等待回应... 302 Found
+位置：[github 签名跳转 URL，已省略] [跟随至新的 URL]
+--2026-11-07 18:04:37--  [github 签名跳转 URL，已省略]
+正在解析主机 release-assets.githubusercontent.com (release-assets.githubusercontent.com)... 185.199.108.133, 185.199.110.133, 185.199.109.133, ...
+正在连接 release-assets.githubusercontent.com (release-assets.githubusercontent.com)|185.199.108.133|:443... 已连接。
+已发出 HTTP 请求，正在等待回应... 200 OK
+长度： 18076531 (17M) [application/octet-stream]
+
+...(中间 6100+ 行编译输出省略)...
+
+"make" depend && "make" _build_programs
+make[1]: Entering directory '/home/sm/rocopenssl_src/openssl-3.3.2'
+make[1]: Leaving directory '/home/sm/rocopenssl_src/openssl-3.3.2'
+make[1]: Entering directory '/home/sm/rocopenssl_src/openssl-3.3.2'
+make[1]: Nothing to be done for '_build_programs'.
+make[1]: Leaving directory '/home/sm/rocopenssl_src/openssl-3.3.2'
+created directory `/home/sm/rocopenssl332/bin'
+*** Installing runtime programs
+install apps/openssl -> /home/sm/rocopenssl332/bin/openssl
+install tools/c_rehash -> /home/sm/rocopenssl332/bin/c_rehash
+>>> 生成环境变量脚本 /home/sm/openssl_env.sh （库目录 /home/sm/rocopenssl332/lib64）
+>>> 验证（当前 shell 内）
+OpenSSL 3.3.2 3 Sep 2024 (Library: OpenSSL 3.3.2 3 Sep 2024)
+built on: Sat Nov  7 10:06:16 2026 UTC
+platform: linux-x86_64
+>>> 完成。使用方式：source /home/sm/openssl_env.sh
+=== 退出码: 0
+=== source 后版本:
+/home/sm/rocopenssl332/bin/openssl
+OpenSSL 3.3.2 3 Sep 2024 (Library: OpenSSL 3.3.2 3 Sep 2024)
+built on: Sat Nov  7 10:06:16 2026 UTC
+platform: linux-x86_64
+=== SM3 向量:
+SM3(stdin)= 66c7f0f462eeedd9d1f2d46bdc10e4e24167c4875cf2f7a2297da02b8f4ba8e0
+=== SM4-CBC 10 字节明文 -> 密文长度:
+-rw-rw-r-- 1 sm sm 16 11月  7 18:08 /tmp/c.bin
+=== 磁盘: /dev/sda3        20G   16G  2.3G   88% /
+=== end: 2026-11-07T18:08:25+08:00

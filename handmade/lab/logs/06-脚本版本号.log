@@ -1,0 +1,29 @@
+# 采集时间: 2026-11-07 18:14:19 +08:00
+# 命令: bash /tmp/ver.sh (在 guest 内查看老师脚本的版本号与已装 GmSSL 版本)
+# 注: 该脚本每行行尾都带两个空格, 这正是 01 号日志里 heredoc 结束符失效的根源
+
+=== 老师脚本里的版本号（第 1-15 行）
+$ sed -n '1,15p' ~/bestidiocs4stu/sh/opensslinstall.sh
+#!/bin/bash  
+
+# ============================  
+# OpenSSL 安装与配置脚本（使用 LD_LIBRARY_PATH 和 PATH）  
+# ============================  
+
+set -euo pipefail  
+
+# 配置变量  
+VER="3.2.1"  
+CUROPENSSL="openssl-${VER}"  
+DOWNLOAD_URL="https://www.openssl.org/source/${CUROPENSSL}.tar.gz"  
+
+# 设置工作目录  
+ROCHOME="$HOME"  
+
+$ grep -n 'VER=\|DOWNLOAD_URL=' ~/bestidiocs4stu/sh/opensslinstall.sh
+10:VER="3.2.1"  
+12:DOWNLOAD_URL="https://www.openssl.org/source/${CUROPENSSL}.tar.gz"  
+
+$ gmssl version
+GmSSL 3.1.1
+=== end 2026-11-07T18:14:19+08:00

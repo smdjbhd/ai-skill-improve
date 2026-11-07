@@ -1,0 +1,15 @@
+# 采集时间: 2026-11-07 18:03 +08:00
+# 命令: 见 02 说明, cat -A 显示行尾(美元符=行尾)
+
+===== 1) 脚本 heredoc 结束符（cat -A 看行尾） =====
+echo "M-iM-^EM-^MM-gM-=M-.M-gM-^NM-/M-eM-"M-^CM-eM-^OM-^XM-iM-^GM-^O..."  $
+$
+# M-eM-^HM-^[M-eM-;M-:M-dM-8M-^@M-dM-8M-*M-gM-^NM-/M-eM-"M-^CM-eM-^OM-^XM-iM-^GM-^OM-hM-.M->M-gM-=M-.M-hM-^DM-^ZM-fM-^\M-,  $
+ENV_SCRIPT="${ROCHOME}/openssl_env.sh"  $
+$
+cat > "${ENV_SCRIPT}" << EOF  $
+# OpenSSL M-gM-^NM-/M-eM-"M-^CM-eM-^OM-^XM-iM-^GM-^OM-hM-.M->M-gM-=M-.  $
+export PATH="${BUILD_DIR}/bin:\$PATH"  $
+export LD_LIBRARY_PATH="${BUILD_DIR}/lib:\$LD_LIBRARY_PATH"  $
+export PKG_CONFIG_PATH="${BUILD_DIR}/lib/pkgconfig:\$PKG_CONFIG_PATH"  $
+EOF  $

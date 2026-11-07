@@ -1,0 +1,27 @@
+# 采集时间: 2026-11-07 18:03:20 +08:00
+# 主机: sm-virtual-machine / Ubuntu 22.04.5 LTS / kernel 6.8.0-138-generic
+# 命令: bash sh/opensslinstall.sh   (老师给的课程仓库 ~/bestidiocs4stu 原版脚本)
+# 完整日志: 11386 行 / 2.1 MB, 本文件只保留结尾关键段, 行号为原日志行号
+
+ 11365| make depend && make _build_programs
+ 11366| make[1]: Entering directory '/home/sm/rocopenssl_src/openssl-3.2.1'
+ 11367| make[1]: Leaving directory '/home/sm/rocopenssl_src/openssl-3.2.1'
+ 11368| make[1]: Entering directory '/home/sm/rocopenssl_src/openssl-3.2.1'
+ 11369| make[1]: Nothing to be done for '_build_programs'.
+ 11370| make[1]: Leaving directory '/home/sm/rocopenssl_src/openssl-3.2.1'
+ 11371| created directory `/home/sm/rocopenssl_build/bin'
+ 11372| *** Installing runtime programs
+ 11373| install apps/openssl -> /home/sm/rocopenssl_build/bin/openssl
+ 11374| install tools/c_rehash -> /home/sm/rocopenssl_build/bin/c_rehash
+ 11375| 配置环境变量...
+ 11376| sh/opensslinstall.sh: 行 87: 警告： 立即文档在第 55 行被文件结束符分隔（需要 "EOF"）
+ 11377| sh/opensslinstall.sh: 行 55: CLEAN_CHOICE: 未绑定的变量
+ 11378| === 脚本退出码 : 1
+ 11379| === which openssl : /usr/bin/openssl
+ 11380| === openssl version : OpenSSL 3.0.2 15 Mar 2022 (Library: OpenSSL 3.0.2 15 Mar 2022)
+ 11381| === /usr/bin/openssl version : OpenSSL 3.0.2 15 Mar 2022 (Library: OpenSSL 3.0.2 15 Mar 2022)
+ 11382| === 新装二进制 : /home/sm/rocopenssl_build/bin/openssl: /lib/x86_64-linux-gnu/libssl.so.3: version `OPENSSL_3.2.0' not found (required by /home/sm/rocopenssl_build/bin/openssl)
+ 11383| /home/sm/rocopenssl_build/bin/openssl: /lib/x86_64-linux-gnu/libcrypto.so.3: version `OPENSSL_3.0.9' not found (required by /home/sm/rocopenssl_build/bin/openssl)
+ 11384| /home/sm/rocopenssl_build/bin/openssl: /lib/x86_64-linux-gnu/libcrypto.so.3: version `OPENSSL_3.2.0' not found (required by /home/sm/rocopenssl_build/bin/openssl)
+ 11385| === 磁盘        : /dev/sda3        20G   16G  2.4G   87% /
+ 11386| === end     : 2026-11-07T18:03:20+08:00

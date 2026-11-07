@@ -1,0 +1,22 @@
+# 采集时间: 2026-11-07 18:12:45 +08:00
+# 命令: bash /tmp/p3.sh  (复现 LD_LIBRARY_PATH 污染系统 openssl 的现象)
+# 说明: ~/rocopenssl_build 是老师脚本装出来的 3.2.1 目录, 3.3.2 装在 ~/rocopenssl332
+
+=== 复现：把 3.2.1 的库目录塞进 LD_LIBRARY_PATH，再跑系统自带的 openssl
+$ /usr/bin/openssl version
+OpenSSL 3.0.2 15 Mar 2022 (Library: OpenSSL 3.2.1 30 Jan 2024)
+
+$ md5sum /usr/bin/openssl /usr/bin/openssl-3.0.2.bak
+ed1067a36cd6439a75c00e6cf114c3b2  /usr/bin/openssl
+ed1067a36cd6439a75c00e6cf114c3b2  /usr/bin/openssl-3.0.2.bak
+
+$ ldd /usr/bin/openssl | grep -E 'libssl|libcrypto'
+	libssl.so.3 => /home/sm/rocopenssl_build/lib64/libssl.so.3 (0x00007944d6ed9000)
+	libcrypto.so.3 => /home/sm/rocopenssl_build/lib64/libcrypto.so.3 (0x00007944d6800000)
+
+$ objdump -p /home/sm/rocopenssl_build/lib64/libssl.so.3 | grep SONAME
+  SONAME               libssl.so.3
+
+=== 对照：不设 LD_LIBRARY_PATH 时
+OpenSSL 3.0.2 15 Mar 2022 (Library: OpenSSL 3.0.2 15 Mar 2022)
+=== end 2026-11-07T18:12:45+08:00

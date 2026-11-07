@@ -1,0 +1,30 @@
+# 采集时间: 2026-11-07 18:04:17 +08:00
+# 说明: 原脚本生成的 ~/openssl_env.sh 是 0 字节, 手工重写后再 source 验证
+
+=== 步骤1：手写正确的环境变量脚本（原脚本生成的是 0 字节）
+# OpenSSL 3.2.1 环境变量（手工修正：库目录是 lib64，不是 lib）
+export PATH="$HOME/rocopenssl_build/bin:$PATH"
+export LD_LIBRARY_PATH="$HOME/rocopenssl_build/lib64:$LD_LIBRARY_PATH"
+export PKG_CONFIG_PATH="$HOME/rocopenssl_build/lib64/pkgconfig:$PKG_CONFIG_PATH"
+=== 步骤2：source 后验证
+/home/sm/rocopenssl_build/bin/openssl
+/usr/bin/openssl
+/bin/openssl
+OpenSSL 3.2.1 30 Jan 2024 (Library: OpenSSL 3.2.1 30 Jan 2024)
+built on: Sat Nov  7 10:01:40 2026 UTC
+platform: linux-x86_64
+options:  bn(64,64)
+=== 步骤3：SM3 测试向量（abc -> 66c7f0f4...）
+SM3(stdin)= 66c7f0f462eeedd9d1f2d46bdc10e4e24167c4875cf2f7a2297da02b8f4ba8e0
+=== 步骤4：SM4 分组长度验证（CBC 需要 16 字节 IV）
+-rw-r--r-- 1 sm sm 16 11月  7 18:04 /tmp/sm4cipher.bin
+-rw-r--r-- 1 sm sm 10 11月  7 18:04 /tmp/sm4plain.txt
+=== 步骤5：provider 是否可用（对照 v1 里那句 ENGINE 的错误说法）
+Providers:
+  default
+    name: OpenSSL Default Provider
+    version: 3.2.1
+    status: active
+=== 步骤6：系统自带的 /usr/bin/openssl 有没有被影响
+OpenSSL 3.0.2 15 Mar 2022 (Library: OpenSSL 3.2.1 30 Jan 2024)
+=== end: 2026-11-07T18:04:17+08:00
