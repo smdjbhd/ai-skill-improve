@@ -31,7 +31,17 @@
 │   ├── v1/
 │   │   ├── skill.md              # Skill 本体
 │   │   └── changelog.md          # 本版设计思路与改动原因
-│   └── v2 … v7/
+│   ├── v2 … v6/                  # 同上，逐版加厚
+│   └── v7/                       # 配置化版本（也是现在能用的那一版）
+│       ├── skill.md              # Skill 本体（课程表驱动）
+│       ├── changelog.md
+│       ├── weeks.yaml            # 12 周课程表：章节 / 档位 / 有无终端实验 / 三套 profile
+│       ├── material/w01.md, w09.md   # 本周素材（听课笔记 + 真实日志引用），缺了就不生成
+│       ├── fixtures/w04-graded.md    # 第 4 周分级夹具（占位正文，只验 C19）
+│       └── scripts/
+│           ├── course.py         # 解析 weeks.yaml，按周算形态/分级/算法表
+│           ├── generate.py       # 只产骨架；素材不足退出码 2
+│           └── check.py          # 21 项验收，--self-test / --coverage
 ├── output/                       # 各版 Skill 生成的作业
 │   ├── v1/
 │   │   ├── generated.md          # AI 原始生成
@@ -63,12 +73,30 @@
 3. 整段投喂给 AI（Kimi / DeepSeek / ChatGPT 均可），得到 `generated.md`；
 4. 人工审阅后写入 `output/vN/human-edited.md`，批注格式见下。
 
-### v2 之后
-
-v2 起 Skill 增加了固定模板、字数下限与评分点映射；v5 起附带可执行的校验脚本：
+### v7（现在推荐用这一版）
 
 ```bash
-python skill/v5/scripts/check.py output/v5/generated.md
+# 1) 生成骨架（缺素材会报"第 N 周素材不足"并以退出码 2 结束，不会瞎编）
+python skill/v7/scripts/generate.py --week 1 --out output/w01.md
+
+# 2) 按素材把正文写满，然后校验（21 项，给文件名:行号）
+python skill/v7/scripts/check.py --report output/w01.md --week 1
+
+# 3) 12 周回归：看哪几周能生成、哪几周缺素材
+python skill/v7/scripts/generate.py --all --dir tmp/regress
+
+# 4) 检查器自证：好样本必须全绿，4 个人为变异必须被指定规则抓住
+python skill/v7/scripts/check.py --self-test
+
+# 5) 规则表与实现是否一一对应
+python skill/v7/scripts/check.py --coverage
+```
+
+### v5 / v6（保留作对比）
+
+```bash
+python skill/v5/scripts/check.py --report output/v5/generated.md --profile crypto
+python skill/v6/scripts/check.py --report output/v6/generated.md --profile c-only
 ```
 
 ### 思维导图渲染
@@ -119,9 +147,9 @@ python tools/render_mermaid.py output/vN/human-edited.md output/vN/mindmap.png
 | v2 | 反馈具体可执行 | 加入章节模板、字数下限、评分点映射表 | ✅ 已提交 `skill-v2` |
 | v3 | 反馈可执行化 | 把「写深一点」改成可判定的验收条件（C1–C12） | ✅ 已提交 `skill-v3` |
 | v4 | 教材术语 | 术语表 + 术语唯一 + 数值三件套（C13–C18） | ✅ 已提交 `skill-v4` |
-| v5 | 自我检查 | `scripts/check.py` 自动校验 28 项 + `--self-test` | ⏳ 待做 |
-| v6 | 边界情况 | 无 Linux 实验的周、只有 Head First C 的周、重点/参考分级 | ⏳ 待做 |
-| v7 | 泛化与稳定 | 周次配置化 `weeks.yaml` + 回归测试，一次生成 12 周 | ⏳ 待做 |
+| v5 | 自我检查 | `scripts/check.py` 19 项 + `--self-test` + `--coverage` | ✅ 已提交 `skill-v5` |
+| v6 | 边界情况 | 三套周形态、三态结果（PASS/FAIL/N/A）、重点/了解/参考分级（C19） | ✅ 已提交 `skill-v6` |
+| v7 | 泛化与稳定 | 课程表驱动 `weeks.yaml` + `generate.py` + 12 周回归 | ✅ 已提交 `skill-v7` |
 
 各版的自动校验结果（均为逐项全过）：
 
@@ -129,17 +157,22 @@ python tools/render_mermaid.py output/vN/human-edited.md output/vN/mindmap.png
 |:---|:---|:---|:---|:---|
 | v1 | 无（人工通读） | — | 5 条批注 / 3 处事实错 | 4626×2381 |
 | v2 | 无 | — | 4 条批注 | 4578×3403 |
-| v3 | `tmp/check_v3.py` | 20 | 20/20 PASS | 4578×3463 |
-| v4 | `tmp/check_v4.py` | 28 | 28/28 PASS | 4592×3106 |
+| v3 | `tmp/check_v3.py`（仓库外） | 20 | 20/20 PASS | 4578×3463 |
+| v4 | `tmp/check_v4.py`（仓库外） | 28 | 28/28 PASS | 4592×3106 |
+| v5 | `skill/v5/scripts/check.py` | 19 | 19/19 PASS | 4592×3106 |
+| v6 | `skill/v6/scripts/check.py`（第 9 周，`c-only`） | 21 | 0 失败 / 5 项 N/A | 4560×2587 |
+| v7 | `skill/v7/scripts/check.py --week 1` | 21 | 0 失败 / 0 项 N/A | 4592×3106 |
 
-> v3/v4 的检查器目前在工作区的 `tmp/` 里（各写一次、不通用），这正是 `feedback/v4-to-v5.md` 要求 v5 解决的问题：把检查器搬进仓库、消掉重复、加自测。
+> v3/v4 的检查器各写一次放在工作区 `tmp/` 里，不通用——这正是 `feedback/v4-to-v5.md` 要求 v5 解决的问题；
+> v5 把检查器搬进仓库，v6 让它认周形态，v7 让周形态从 `weeks.yaml` 来。
+> 12 周回归现状：`generate.py --all` = 「能生成 2 周，素材不足 10 周」——素材没写就是没写，脚本不会编。
 
 ---
 
 ## 七、环境
 
 - Git 2.56+（Windows）
-- Python 3.12（v5 起的校验脚本、v1 起的导图渲染脚本）
+- Python 3.12（v5 起的校验脚本、v1 起的导图渲染脚本；只依赖标准库，**不需要 pip install**）
 - 思维导图渲染：Mermaid 11 + 本机 Microsoft Edge 无头模式（离线可用，不依赖 mermaid.ink）
 - PDF 导出：LibreOffice Kit（`cli.js convert --input x.md.docx --output x.pdf`）
 
