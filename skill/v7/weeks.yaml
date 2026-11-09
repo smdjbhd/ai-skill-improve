@@ -1,0 +1,92 @@
+# 课程表：12 周的章节、分级、形态与实验
+#
+# 这是 v7 的"唯一事实来源"。检查器不再自己写死三种周形态（那正是 v6 的问题：
+# PROFILES 是代码里的常量，加第四种形态要改代码），而是从这里读。
+#
+# 格式（故意选最简单的子集，配 scripts/course.py 里 60 行的解析器：
+# 不依赖 PyYAML，`pip install` 不是前置条件）：
+#   profiles:            每套周形态的规则参数
+#     - 名字: 若干 key: value
+#   weeks:               12 周
+#     - week: N / theme / experiment / chapters
+#   chapters 用 `教材第1章|重点,第2章|了解` 这种"名字|档位"的写法，
+#   档位只有 重点 / 了解 / 参考 三种；没有分级的周留空。
+#
+# 注意：这里的章节名只写了章号与主题，节名要等 `material/wNN.md` 里给了教材要点才写得出。
+# 检查器的 C6（出处格式）要求 `教材第 N 章「节名」`，所以素材里没写节名时它会报错——
+# 这是故意的：宁可报错，不许编。
+
+version: 7
+
+profiles:
+  - name: crypto
+    algs: SM4,AES,DES,MD5,SHA-1,SHA-256,SM3,RSA,ECC,SM2
+    skeleton: 密码,口令,柯克霍夫,混淆,扩散,密钥空间,攻击模型,混合密码系统
+    logdir: handmade/lab/logs
+    source: 教材第 ?\d+ ?章 ?「[^」]+」|handmade/lab/logs/[^\s]+\.log:\d+
+    unit: \d+\s*位
+    strict: true
+  - name: c-crypto
+    algs: SM4,AES,RSA,SM2,SM3,SHA-256,int,char,malloc,free,指针,数组
+    skeleton: 密码,口令,混淆,扩散,密钥空间,攻击模型
+    logdir: handmade/lab/logs
+    source: 教材第 ?\d+ ?章 ?「[^」]+」|Head First C 第 ?\d+ ?章 ?「[^」]+」|handmade/lab/logs/[^\s]+\.log:\d+
+    unit: \d+\s*(位|字节)
+    strict: false
+  - name: c-only
+    algs: int,char,long,double,malloc,sizeof
+    skeleton:
+    logdir:
+    source: Head First C 第 ?\d+ ?章 ?「[^」]+」
+    unit: \d+\s*(字节|个)
+    strict: false
+
+weeks:
+  - week: 1
+    theme: 密码学基础与 Linux 加密环境
+    experiment: openssl
+    chapters: 教材第1章|重点,教材第2章|重点
+  - week: 2
+    theme: 指针、结构体与分组密码
+    experiment: openssl
+    chapters: Head First C 第8章|重点,教材第3章|重点,教材第5章|重点
+  - week: 3
+    theme: 文件与随机数
+    experiment: openssl
+    chapters: Head First C 第4章|重点,教材第4章|重点
+  - week: 4
+    theme: 进程与公钥基础设施
+    experiment: openssl
+    chapters: Head First C 第5章|重点,教材第14章|重点,教材第6章|了解,教材第8章|参考,教材第13章|参考
+  - week: 5
+    theme: 哈希与消息认证
+    experiment: none
+    chapters: 教材第7章|重点
+  - week: 6
+    theme: 数字签名与证书
+    experiment: openssl
+    chapters: 教材第9章|重点
+  - week: 7
+    theme: 密码协议与安全通信
+    experiment: openssl
+    chapters: 教材第10章|了解,教材第11章|重点
+  - week: 8
+    theme: 综合应用
+    experiment: none
+    chapters: 教材第12章|重点
+  - week: 9
+    theme: 进程与系统调用
+    experiment: none
+    chapters: Head First C 第9章|重点
+  - week: 10
+    theme: 进程间通信
+    experiment: none
+    chapters: Head First C 第10章|重点
+  - week: 11
+    theme: 网络编程
+    experiment: none
+    chapters: Head First C 第11章|重点
+  - week: 12
+    theme: 多线程与并发
+    experiment: none
+    chapters: Head First C 第12章|重点
