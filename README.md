@@ -186,3 +186,28 @@ python tools/render_mermaid.py output/vN/human-edited.md output/vN/mindmap.png
 1. 仓库链接：`https://github.com/<你的账号>/password-pre-study-skill`（推送后填写）
 2. 最终报告 PDF：`report/final-analysis.pdf`
 3. 各周作业 Markdown / PDF：`output/v7/`
+
+## 九、十二周交付状态
+
+课程表见 `skill/v7/weeks.yaml`（12 周、各章分级、周形态）。当前进度：
+
+| 周 | 主题 | 状态 | 文件 | 还缺什么 |
+|---|---|---|---|---|
+| 1 | 密码学基础与 Linux 加密环境 | v1–v7 全套，v7 稿 21/21 通过 | `output/v7/generated.md`、`human-edited.md`、`mindmap.png` | **手写正文**（`handmade/homework1.md`）与手绘导图截图 |
+| 2 | 指针、结构体与分组密码 | 仅课程表 | — | 素材（读了什么、卡在哪） |
+| 3 | 文件与随机数 | 仅课程表 | — | 素材 |
+| 4 | 进程与 PKI（三档分级：14 重 / 6 了解 / 8、13 参考） | 仅课程表 + `fixtures/w04-graded.md` | `skill/v7/fixtures/` | 素材；这是唯一能真正验三档分级的周 |
+| 5 | 哈希与消息认证 | 仅课程表 | — | 素材 |
+| 6 | CSP 与 CryptoAPI | 已生成，19/21 通过 | `output/v7/w06.md`、`w06-mindmap.png` | §5 需有"我答不上来"的轮次；§6 需命令行排查记录 |
+| 7 | 身份认证与 PKI | **仅素材** | `skill/v7/material/w07.md`、`handmade/旧稿/` | 真实实验（`openssl ca` 三处）、重跑 PFX 两方向 |
+| 8 | SSL/TLS 编程 | **仅素材** | `skill/v7/material/w08.md`、`handmade/旧稿/` | 真实实验（证书验证错误码 20 的复现） |
+| 9 | 进程与系统调用 | 已生成，21/21 通过 | `output/v7/w09.md` | 素材可再补真实日志 |
+| 10–12 | 进程间通信 / 网络编程 / 多线程 | 仅课程表 | — | 素材 |
+
+第 7、8 周旧稿已归档 `handmade/旧稿/`，两份**都是 AI 生成、本人未加工**，只作素材与反例，不作证据。
+两稿在 `check.py` 下均为 21 项失败 12 项（缺七节结构、术语表、分级标记、对话表、四段式问题、可核对的出处）。
+
+只剩三类活必须本人做（见 `docs/评分点对照.md` 第四节）：
+1. **第一周手写正文** —— 打完 tag `phase1-handmade` 才算 Phase 1 完成；
+2. **真实素材** —— 每读一章，给 15–20 行笔记（讲了什么、哪里没懂、跑了什么、报错原文）；
+3. **判断与批注** —— 生成稿的 `human-edited.md` 里那几条 `> [批注]`，得是本人不同意的意见。
