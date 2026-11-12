@@ -67,11 +67,11 @@ weeks:
     experiment: none
     chapters: 教材第9章|重点
   - week: 7
-    theme: 密码协议与安全通信
+    theme: 身份认证与 PKI
     experiment: openssl
     chapters: 教材第10章|了解,教材第11章|重点
   - week: 8
-    theme: 综合应用
+    theme: SSL/TLS 编程
     experiment: none
     chapters: 教材第12章|重点
   - week: 9
