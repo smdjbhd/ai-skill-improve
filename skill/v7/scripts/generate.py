@@ -22,75 +22,77 @@ import course  # noqa: E402
 
 WEEK_CHARS = {'重点': '≥400 字', '了解': '150–250 字', '参考': '≤150 字'}
 
+# 节名必须与 check.py 的 TOPICS 逐字一致：带"一、二、"的标题会让 C1 判成"多余章节"
 SECTIONS = [
-    ('一、本周学习内容', '400–800 字', '读完后用自己的话讲一遍这周讲了什么，不复制教材目录'),
-    ('二、AI 对学习内容的总结', '900–1300 字', '把素材交给 AI，让它总结；这一节保留 AI 的原话，包括错的地方'),
-    ('三、对 AI 总结的反思与补充', '300–900 字', '逐条挑 §2 的错与漏，引用原句再更正；至少 2 条补充要有出处'),
-    ('四、基于 AI 的学习', '300–1500 字', '至少 2 个概念，每个概念一张对话表（≥8 轮）'),
-    ('五、问题与解决', '300–1500 字', '至少 2 个真实卡住过的问题，现象/排查/解决三段，排查段要有 $ 开头的命令'),
-    ('六、作业提交要求', '20–400 字', '文件名、PDF、仓库链接三件事'),
+    ('学习内容', '8–15 行', '读完后用自己的话讲一遍这周讲了什么，不复制教材目录'),
+    ('AI 对学习内容的总结', '900–1300 字', '把素材交给 AI，让它总结；这一节保留 AI 的原话，包括错的地方'),
+    ('对 AI 总结的反思与补充', '300–900 字', '逐条挑 §2 的错与漏，引用原句再更正；至少 2 条补充要有出处'),
+    ('学习思维导图', '8–20 行', '一个 mermaid mindmap 块，节点 ≤12 字，层级 ≤4'),
+    ('基于 AI 的学习', '300–1500 字', '至少 2 个概念，每个概念一张对话表（≥8 轮）'),
+    ('学习实践过程遇到的问题与解决方式', '300–1500 字', '至少 2 个真实卡住过的问题，现象/排查/解决三段'),
+    ('作业提交要求', '20–400 字', '文件名、PDF、仓库链接三件事'),
 ]
 
 
 def scaffold(cfg):
+    """只产骨架：每个 `##` 节名来自 SECTIONS，正文留给人和素材。"""
     w = cfg['week']
     lines = []
     add = lines.append
     add('<!-- 本文件由 skill/v7/scripts/generate.py 生成骨架，正文需按 skill/v7/skill.md 填写 -->')
     add('')
-    add('## 一、本周学习内容')
-    add('<!-- 目标字数: 400–800 字 -->')
-    add('')
-    add('> TODO：本周主题「%s」。' % cfg.get('theme', ''))
-    add('')
-    add('## 二、AI 对学习内容的总结')
-    add('<!-- 目标字数: 900–1300 字 -->')
-    add('')
-    for ch in cfg['chapters']:
-        grade = ch['grade'] or '重点'
-        add('<!-- 分级: %s -->' % grade)
-        add('### %s（%s）' % (ch['name'], WEEK_CHARS.get(grade, '')))
+    for i, (name, target, hint) in enumerate(SECTIONS):
+        add('## %s' % name)
+        add('<!-- 目标字数: %s -->' % target)
         add('')
-        add('> TODO：按素材写这一章。')
-        add('')
-    add('## 三、对 AI 总结的反思与补充')
-    add('<!-- 目标字数: 300–900 字 -->')
-    add('')
-    add('> TODO：**问题 1。** AI 原话"……"——更正：……')
-    add('')
-    add('## 四、基于 AI 的学习')
-    add('<!-- 目标字数: 300–1500 字 -->')
-    add('')
-    add('### 概念一：')
-    add('')
-    add('| 轮次 | 谁 | 内容 |')
-    add('|---|---|---|')
-    add('| 1 | 我 | |')
-    add('')
-    add('## 五、问题与解决')
-    add('<!-- 目标字数: 300–1500 字 -->')
-    add('')
-    add('### 问题 1：')
-    add('')
-    add('**现象**')
-    add('')
-    add('```text')
-    add('')
-    add('```')
-    add('')
-    add('**排查**')
-    add('')
-    add('```text')
-    add('$ ')
-    add('```')
-    add('')
-    add('**解决**')
-    add('')
-    add('## 六、作业提交要求')
-    add('<!-- 目标字数: 20–400 字 -->')
-    add('')
-    add('> TODO：20241409 司马平珏《密码系统设计》第 %d 周.md / .pdf + 仓库链接' % w)
-    add('')
+        if name == '学习内容':
+            add('> TODO：本周主题「%s」。%s' % (cfg.get('theme', ''), hint))
+            add('')
+        elif name == 'AI 对学习内容的总结':
+            for ch in cfg['chapters']:
+                grade = ch['grade'] or '重点'
+                add('<!-- 分级: %s -->' % grade)
+                add('### %s' % ch['name'])
+                add('')
+                add('> TODO：按素材写这一章（%s）。' % WEEK_CHARS.get(grade, ''))
+                add('')
+        elif name == '对 AI 总结的反思与补充':
+            add('> TODO：**问题 1。** AI 原话"……"——更正：……')
+            add('')
+        elif name == '学习思维导图':
+            add('```mermaid')
+            add('mindmap')
+            add('  root((第 %d 周))' % w)
+            add('    待填')
+            add('```')
+            add('')
+        elif name == '基于 AI 的学习':
+            add('### 概念一：')
+            add('')
+            add('| 轮次 | 谁 | 内容 |')
+            add('|---|---|---|')
+            add('| 1 | 我 | |')
+            add('')
+        elif name == '学习实践过程遇到的问题与解决方式':
+            add('### 问题 1：')
+            add('')
+            add('**现象**')
+            add('')
+            add('```text')
+            add('')
+            add('```')
+            add('')
+            add('**排查**')
+            add('')
+            add('```text')
+            add('$ ')
+            add('```')
+            add('')
+            add('**解决**')
+            add('')
+        elif name == '作业提交要求':
+            add('> TODO：20241409 司马平珏《密码系统设计》第 %d 周.md / .pdf + 仓库链接' % w)
+            add('')
     add('---')
     add('')
     add('### 附录 A：真实性对照表')
@@ -103,16 +105,14 @@ def scaffold(cfg):
     add('```yaml')
     add('周次: %d' % w)
     add('主题: %s' % cfg.get('theme', ''))
-    add('周形态: %s' % cfg['profile'])
-    add('章节分级: ' + '/'.join('%s=%s' % (c['name'], c['grade'] or '重点')
-                              for c in cfg['chapters']))
-    add('实验: %s' % cfg['experiment'])
-    add('真实日志: %s' % (sorted(os.listdir(os.path.join(cfg['base'], cfg['logdir'])))
-                          if cfg['logdir'] else '无'))
-    add('素材: skill/v7/material/w%02d.md' % w)
+    add('周形态: %s' % cfg.get('profile', ''))
+    add('章节分级: %s' % '/'.join('%s=%s' % (c['name'], c['grade'] or '重点') for c in cfg['chapters']))
+    add('实验: %s' % cfg.get('experiment', 'none'))
+    add('真实日志: %s' % ('无' if not cfg.get('logdir') else cfg.get('logdir')))
+    add('素材: %s' % cfg.get('material', ''))
     add('```')
     add('')
-    return '\n'.join(lines)
+    return '\n'.join(lines) + '\n'
 
 
 def build(c, week):

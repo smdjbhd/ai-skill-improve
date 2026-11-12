@@ -63,8 +63,8 @@ weeks:
     experiment: none
     chapters: 教材第7章|重点
   - week: 6
-    theme: 数字签名与证书
-    experiment: openssl
+    theme: CSP 与 CryptoAPI
+    experiment: none
     chapters: 教材第9章|重点
   - week: 7
     theme: 密码协议与安全通信
